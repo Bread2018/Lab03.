@@ -1,0 +1,82 @@
+const byte ledPin = 7;
+void setup(){
+  pinMode(ledPin,OUTPUT);
+  Serial.begin(9600);
+  Serial.println("Hello,World!");
+}
+void loop(){
+  int val;
+  if(Serial.available()){
+    val = Serial.read();
+    if(val == '1'){
+      digitalWrite(ledPin,HIGH);
+      Serial.println("LED ON");
+    }else if(val == '0'){
+      digitalWrite(ledPin,LOW);
+      Serial.println("LED OFF");
+    }
+  }
+}
+
+
+
+
+
+
+const byte ledPin = 14;
+float Vin,Analogin = 0;
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(ledPin,INPUT); 
+}
+void loop()
+{
+  int i;
+  for(i=0;i<=5;i++)
+  {
+    Analogin = 0.7*Analogin + 0.3*analogRead(ledPin);
+    Vin = Analogin * 2.5/4095;
+    Serial.println(Analogin);
+    Serial.println(Vin);
+  }
+  delay(500);
+}
+
+
+
+const byte potPin = 14;
+float Vin,Analogin = 0;
+float sensorValue,sensorVoltage;
+float ResisterValue,R1,R2;
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(potPin,OUTPUT); 
+  ResisterValue = 1096600;
+  R1 = 0;
+  sensorValue = 0;
+  sensorVoltage = 0;
+}
+
+
+
+void loop()
+{
+  int i;
+  float Vin = 2.5;
+  for(i=0;i<=5;i++)
+  {
+    sensorValue = 0.7*sensorValue + 0.3*analogRead(potPin);
+  }
+    Serial.println("Read:");
+    Serial.println(sensorValue);
+    sensorVoltage = sensorValue * 2.5/4095;
+    Serial.println("推測:");
+    Serial.println(sensorVoltage);
+    R1 = sensorVoltage * ResisterValue/ Vin ;
+    Serial.println("推測歐姆:");
+    Serial.println(R1);
+    delay(500);
+  }
+
